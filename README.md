@@ -1,2 +1,2 @@
-# abuseipdb
-CodeIgniter plugin
+# AbuseIPDB
+CodeIgniter Module
