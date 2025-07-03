@@ -7,7 +7,7 @@ use CodeIgniter\Publisher\Publisher;
 
 use Modules\AbuseIpdb\Entities\ConfidenceEntity;
 
-class AbuseIpdbConfidenceModel extends Model
+class ConfidenceModel extends Model
 {
 	protected $DBGroup = 'abuseipdb';
 	protected $table = 'confidence';

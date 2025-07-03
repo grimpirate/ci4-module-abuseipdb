@@ -5,16 +5,16 @@ namespace Modules\AbuseIpdb\Services;
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\HTTP\CURLRequest;
 
-use Modules\AbuseIpdb\Models\AbuseIpdbConfidenceModel;
+use Modules\AbuseIpdb\Models\ConfidenceModel;
 
 class AbuseIpdb
 {
-	protected AbuseIpdbConfidenceModel $model;
+	protected ConfidenceModel $model;
 	protected CURLRequest $client;
 
 	public function __construct()
 	{
-		$this->model = model(AbuseIpdbConfidenceModel::class);
+		$this->model = model(ConfidenceModel::class);
 		$this->client = service('curlrequest', [
 			'baseURI' => 'https://api.abuseipdb.com/api/v2/',
 			'headers' => [
