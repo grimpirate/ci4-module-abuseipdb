@@ -26,7 +26,7 @@ class AbuseIpdbWhitelistModel extends Model
 		return $row->ok;
 	}
 
-	public function save(string $ipAddress, int $abuseConfidenceScore): bool
+	public function store(string $ipAddress, int $abuseConfidenceScore): bool
 	{
 		if($abuseConfidenceScore > setting('AbuseIpdb.abuseConfidenceScore'))
 		{
@@ -38,7 +38,7 @@ class AbuseIpdbWhitelistModel extends Model
 			);
 		}
 
-		return parent::save([
+		return $this->save([
 			'ip_address' => $ipAddress,
 			'abuse_confidence_score' => $abuseConfidenceScore,
 		]);

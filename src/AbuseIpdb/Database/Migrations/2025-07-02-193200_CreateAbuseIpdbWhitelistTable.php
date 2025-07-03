@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AbuseIpdb\Migrations;
+namespace Modules\AbuseIpdb\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\RawSql;

@@ -12,7 +12,7 @@ class AbuseIpdb
 	protected AbuseIpdbWhitelistModel $model;
 	protected CURLRequest $client;
 
-	public function __construct(): void
+	public function __construct()
 	{
 		$this->model = model(AbuseIpdbWhitelistModel::class);
 		$this->client = service('curlrequest', [
@@ -54,7 +54,7 @@ class AbuseIpdb
 			return false;
 		}
 
-		$this->model->save($ipAddress, $json['data']['abuseConfidenceScore']);
+		$this->model->store($ipAddress, $json['data']['abuseConfidenceScore']);
 
 		return $json['data']['abuseConfidenceScore'] > setting('AbuseIpdb.abuseConfidenceScore');
 	}
