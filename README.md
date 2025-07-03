@@ -6,6 +6,8 @@ CodeIgniter Module
 .env
 ```
 Modules\AbuseIpdb\Config\AbuseIpdb.apiKey=YOUR_ABUSEIPDB_API_KEY;
+OR
+abuseipdb.apiKey=YOUR_ABUSEIPDB_API_KEY;
 ```
 modules/AbuseIpdb/Config/AbuseIpdb
 ```
