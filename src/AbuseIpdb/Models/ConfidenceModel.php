@@ -11,8 +11,8 @@ class ConfidenceModel extends Model
 {
 	protected $DBGroup = 'abuseipdb';
 	protected $table = 'confidence';
-	protected $primaryKey = 'ip_address';
 	protected $allowedFields = [
+		'ip_address',
 		'abuse_confidence_score',
 	];
 	protected $useSoftDeletes = true;
