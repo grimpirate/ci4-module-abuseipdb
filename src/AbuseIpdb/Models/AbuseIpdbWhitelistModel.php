@@ -10,7 +10,7 @@ use Modules\AbuseIpdb\Entities\WhitelistEntity;
 class AbuseIpdbWhitelistModel extends Model
 {
 	protected $DBGroup = 'abuseipdb';
-	protected $table = 'abuseipdb_whitelist';
+	protected $table = 'whitelist';
 	protected $primaryKey = 'ip_address';
 	protected $allowedFields = [
 		'abuse_confidence_score',
