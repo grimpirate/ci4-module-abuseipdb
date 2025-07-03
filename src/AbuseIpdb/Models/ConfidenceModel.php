@@ -11,8 +11,9 @@ class ConfidenceModel extends Model
 {
 	protected $DBGroup = 'abuseipdb';
 	protected $table = 'confidence';
+	protected $primaryKey = 'ip_address';
+	protected $useAutoIncrement = false;
 	protected $allowedFields = [
-		'ip_address',
 		'abuse_confidence_score',
 	];
 	protected $useSoftDeletes = true;
@@ -38,9 +39,9 @@ class ConfidenceModel extends Model
 			);
 		}
 
-		return $this->save([
+		return $this->save(new ConfidenceEntity([
 			'ip_address' => $ipAddress,
 			'abuse_confidence_score' => $abuseConfidenceScore,
-		]);
+		]));
 	}
 }
