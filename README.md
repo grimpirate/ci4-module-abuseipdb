@@ -3,6 +3,10 @@ CodeIgniter Module
 
 ## Setup
 
+.env
+```
+Modules\AbuseIpdb\Config\AbuseIpdb.apiKey=YOUR_ABUSEIPDB_API_KEY;
+```
 modules/AbuseIpdb/Config/AbuseIpdb
 ```
 public string $apiKey = 'YOUR_ABUSEIPDB_API_KEY';
