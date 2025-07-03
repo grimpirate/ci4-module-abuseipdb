@@ -34,7 +34,7 @@ class ConfidenceModel extends Model
 			$publisher = new Publisher(FCPATH);
 			$publisher->addLineBefore(
 				'.htaccess',
-				" Require not ip {$ipAddress}",
+				"\tRequire not ip {$ipAddress}",
 				'</RequireAll>'
 			);
 		}
