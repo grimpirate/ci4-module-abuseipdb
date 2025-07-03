@@ -35,11 +35,11 @@ class CreateAbuseIpdbWhitelistTable extends Migration
 			],
 		]);
 		$this->forge->addPrimaryKey('ip_address');
-		$this->forge->createTable('whitelist', true);
+		$this->forge->createTable('confidence', true);
 	}
 
 	public function down()
 	{
-		$this->forge->dropTable('whitelist', true);
+		$this->forge->dropTable('confidence', true);
 	}
 }

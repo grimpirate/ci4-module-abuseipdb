@@ -5,7 +5,7 @@ namespace Modules\AbuseIpdb\Entities;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 
-class WhitelistEntity extends Entity
+class ConfidenceEntity extends Entity
 {
 	protected $attributes = [
 		'ip_address',

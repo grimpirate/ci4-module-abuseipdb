@@ -5,19 +5,19 @@ namespace Modules\AbuseIpdb\Models;
 use CodeIgniter\Model;
 use CodeIgniter\Publisher\Publisher;
 
-use Modules\AbuseIpdb\Entities\WhitelistEntity;
+use Modules\AbuseIpdb\Entities\ConfidenceEntity;
 
-class AbuseIpdbWhitelistModel extends Model
+class AbuseIpdbConfidenceModel extends Model
 {
 	protected $DBGroup = 'abuseipdb';
-	protected $table = 'whitelist';
+	protected $table = 'confidence';
 	protected $primaryKey = 'ip_address';
 	protected $allowedFields = [
 		'abuse_confidence_score',
 	];
 	protected $useSoftDeletes = true;
 	protected $useTimestamps = true;
-	protected $returnType = WhitelistEntity::class;
+	protected $returnType = ConfidenceEntity::class;
 
 	public function ok($ipAddress): bool
 	{
