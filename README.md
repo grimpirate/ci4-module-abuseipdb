@@ -45,5 +45,5 @@ public array $required = [
 spark
 ```
 php spark db:create abuseipdb --ext db
-php spark migrate
+php spark migrate -n Modules\\AbuseIpdb -g abuseipdb
 ```
