@@ -7,11 +7,6 @@ use CodeIgniter\I18n\Time;
 
 class ConfidenceEntity extends Entity
 {
-	protected $attributes = [
-		'ip_address',
-		'abuse_confidence_score',
-	];
-
 	protected $casts = [
 		'ip_address' => 'string',
 		'abuse_confidence_score' => 'integer',
