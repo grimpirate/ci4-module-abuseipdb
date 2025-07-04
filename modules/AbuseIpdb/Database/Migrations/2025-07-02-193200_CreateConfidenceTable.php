@@ -5,7 +5,7 @@ namespace Modules\AbuseIpdb\Database\Migrations;
 use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\RawSql;
 
-class CreateAbuseIpdbConfidenceTable extends Migration
+class CreateConfidenceTable extends Migration
 {
 	protected $DBGroup = 'abuseipdb';
 
