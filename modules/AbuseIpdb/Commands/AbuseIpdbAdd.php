@@ -28,7 +28,7 @@ class AbuseIpdbAdd extends BaseCommand
         $publisher = new Publisher(FCPATH);
 	    $publisher->addLineBefore(
 		    '.htaccess',
-		    lang('AbuseIpdb.htaccess', $ipAddress),
+		    lang('AbuseIpdb.htaccess', ['ip' => $ipAddress]),
 		    '</RequireAll>'
 	    );
     }

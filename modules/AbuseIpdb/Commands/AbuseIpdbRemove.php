@@ -29,7 +29,7 @@ class AbuseIpdbRemove extends BaseCommand
 	    $publisher->replace(
 		    '.htaccess',
 		    [
-                lang('AbuseIpdb.htaccess', $ipAddress) . "\n" => '',
+                lang('AbuseIpdb.htaccess', ['ip' => $ipAddress]) . "\n" => '',
             ]
 	    );
     }
