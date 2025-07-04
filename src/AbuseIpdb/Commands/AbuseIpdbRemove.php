@@ -6,12 +6,12 @@ use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Publisher\Publisher;
 
-class AbuseIpdbAdd extends BaseCommand
+class AbuseIpdbRemove extends BaseCommand
 {
     protected $group = 'AbuseIpdb';
-    protected $name = 'abuseipdb:add';
-    protected $description = 'Append a blocked ip to the .htaccess file';
-    protected $usage = 'abuseipdb:add <ip>';
+    protected $name = 'abuseipdb:remove';
+    protected $description = 'Remove a blocked ip from the .htaccess file';
+    protected $usage = 'abuseipdb:remove <ip>';
     protected $arguments = [
         'ip' => 'Internet Protocol Address',
     ];
@@ -20,10 +20,11 @@ class AbuseIpdbAdd extends BaseCommand
     {
         $ipAddress = !isset($params[0]) ? CLI::prompt("IP address", null, 'required') : $params[0];
         $publisher = new Publisher(FCPATH);
-	    $publisher->addLineBefore(
+	    $publisher->replace(
 		    '.htaccess',
-		    "\tRequire not ip {$ipAddress}",
-		    '</RequireAll>'
+		    [
+                "\tRequire not ip {$ipAddress}\n" => '',
+            ]
 	    );
     }
 }
