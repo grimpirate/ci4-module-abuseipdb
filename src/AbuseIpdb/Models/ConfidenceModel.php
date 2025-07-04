@@ -3,7 +3,6 @@
 namespace Modules\AbuseIpdb\Models;
 
 use CodeIgniter\Model;
-use CodeIgniter\Publisher\Publisher;
 
 use Modules\AbuseIpdb\Entities\ConfidenceEntity;
 
@@ -25,23 +24,5 @@ class ConfidenceModel extends Model
 		$row = $this->where('ip_address', $ipAddress)->first();
 		if(empty($row)) return false;
 		return $row->ok;
-	}
-
-	public function store(string $ipAddress, int $abuseConfidenceScore): bool
-	{
-		if($abuseConfidenceScore > setting('AbuseIpdb.abuseConfidenceScore'))
-		{
-			$publisher = new Publisher(FCPATH);
-			$publisher->addLineBefore(
-				'.htaccess',
-				"\tRequire not ip {$ipAddress}",
-				'</RequireAll>'
-			);
-		}
-
-		return $this->save(new ConfidenceEntity([
-			'ip_address' => $ipAddress,
-			'abuse_confidence_score' => $abuseConfidenceScore,
-		]));
 	}
 }

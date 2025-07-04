@@ -4,22 +4,27 @@ namespace Modules\AbuseIpdb\Services;
 
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\HTTP\CURLRequest;
+use CodeIgniter\Publisher\Publisher;
 
+use Modules\AbuseIpdb\Config\AbuseIpdb;
+use Modules\AbuseIpdb\Entities\ConfidenceEntity;
 use Modules\AbuseIpdb\Models\ConfidenceModel;
 
 class AbuseIpdb
 {
 	protected ConfidenceModel $model;
 	protected CURLRequest $client;
+	protected AbuseIpdb $config;
 
 	public function __construct()
 	{
+		$this->config = config(AbuseIpdb::class);
 		$this->model = model(ConfidenceModel::class);
 		$this->client = service('curlrequest', [
 			'baseURI' => 'https://api.abuseipdb.com/api/v2/',
 			'headers' => [
 				'Accept' => 'application/json',
-				'Key' => setting('AbuseIpdb.apiKey'),
+				'Key' => $this->config->apiKey,
 			],
 		]);
 	}
@@ -34,7 +39,7 @@ class AbuseIpdb
 			$response = $this->client->request('GET', 'check', [
 				'query' => [
 					'ipAddress' => $ipAddress,
-					'maxAgeInDays' => setting('AbuseIpdb.maxAgeInDays'),
+					'maxAgeInDays' => $this->config->maxAgeInDays,
 				]
 			]);
 		}
@@ -54,8 +59,20 @@ class AbuseIpdb
 			return false;
 		}
 
-		$this->model->store($ipAddress, $json['data']['abuseConfidenceScore']);
+		$this->model->save(new ConfidenceEntity([
+			'ip_address' => $ipAddress,
+			'abuse_confidence_score' => $json['data']['abuseConfidenceScore'],
+		]));
 
-		return $json['data']['abuseConfidenceScore'] > setting('AbuseIpdb.abuseConfidenceScore');
+		if($json['data']['abuseConfidenceScore'] <= $this->config->abuseConfidenceScore) return false;
+
+		$publisher = new Publisher(FCPATH);
+		$publisher->addLineBefore(
+			'.htaccess',
+			"\tRequire not ip {$ipAddress}",
+			'</RequireAll>'
+		);
+
+		return true;
 	}
 }

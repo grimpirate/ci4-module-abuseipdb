@@ -5,6 +5,8 @@ namespace Modules\AbuseIpdb\Entities;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 
+use Modules\AbuseIpdb\Config\AbuseIpdb;
+
 class ConfidenceEntity extends Entity
 {
 	protected $casts = [
@@ -24,9 +26,11 @@ class ConfidenceEntity extends Entity
 		$diff = $now->difference($this->updated_at);
 		$days = -$diff->getDays();
 
-		if($days > setting('AbuseIpdb.maxAgeInDays')) return false;
+		$config = config(AbuseIpdb::class);
 
-		if($this->abuse_confidence_score > setting('AbuseIpdb.abuseConfidenceScore')) return false;
+		if($days > $config->maxAgeInDays) return false;
+
+		if($this->abuse_confidence_score > $config->abuseConfidenceScore) return false;
 
 		return true;
 	}
