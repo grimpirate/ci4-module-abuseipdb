@@ -1,32 +1,53 @@
 # AbuseIPDB
-CodeIgniter Module
+A CodeIgniter4 Module that provides filtering of IPs as a countermeasure to abuse by using the freely available API from [abuseipdb.com](https://www.abuseipdb.com)
 
 ## Setup
-
+~
+```
+git clone https://github.com/grimpirate/abuseipdb
+mv abuseipdb/modules .
+rm -rf abuseipdb
+```
 .env
 ```
 Modules\AbuseIpdb\Config\AbuseIpdb.apiKey=YOUR_ABUSEIPDB_API_KEY;
 OR
 abuseipdb.apiKey=YOUR_ABUSEIPDB_API_KEY;
 ```
-modules/AbuseIpdb/Config/AbuseIpdb
+modules/AbuseIpdb/Config/AbuseIpdb.php
 ```
 public string $apiKey = 'YOUR_ABUSEIPDB_API_KEY';
 ```
-app/Config/Autoload
+modules/AbuseIpdb/Config/Registrar.php
+```
+<?php
+
+namespace Modules\AbuseIpdb\Config;
+
+class Registrar
+{
+    public static function AbuseIpdb(): array
+    {
+        return [
+            'apiKey' => 'YOUR_ABUSEIPDB_API_KEY',
+        ];
+    }
+}
+```
+app/Config/Autoload.php
 ```
 public $psr4 = [
     'Modules\AbuseIpdb' => ROOTPATH . 'modules/AbuseIpdb',
 ];
 ```
-app/Config/Database
+app/Config/Database.php
 ```
 public array $abuseipdb = [
     'database'    => 'abuseipdb.db',
     'DBDriver'    => 'SQLite3',
 ];
 ```
-app/Config/Filters
+app/Config/Filters.php
 ```
 use Modules\AbuseIpdb\Filters\AbuseIpdb;
 
