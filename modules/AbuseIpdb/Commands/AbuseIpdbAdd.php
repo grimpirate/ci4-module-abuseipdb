@@ -24,7 +24,7 @@ class AbuseIpdbAdd extends BaseCommand
 
     public function run(array $params)
     {
-        $ipAddress = !isset($params[0]) ? CLI::prompt((lang('AbuseIpdb.spark.add.prompt.ip'), null, 'required') : $params[0];
+        $ipAddress = !isset($params[0]) ? CLI::prompt(lang('AbuseIpdb.spark.add.prompt.ip'), null, 'required') : $params[0];
         $publisher = new Publisher(FCPATH);
 	    $publisher->addLineBefore(
 		    '.htaccess',
