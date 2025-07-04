@@ -1,0 +1,36 @@
+<?php
+
+namespace Modules\AbuseIpdb\Commands;
+
+use CodeIgniter\CLI\BaseCommand;
+use CodeIgniter\CLI\CLI;
+use CodeIgniter\CLI\Commands;
+use CodeIgniter\Publisher\Publisher;
+use Psr\Log\LoggerInterface;
+
+class AbuseIpdbRemove extends BaseCommand
+{
+    public function __construct(LoggerInterface $logger, Commands $commands)
+    {
+        parent::__construct($logger, $commands);
+        $this->group = lang('AbuseIpdb.spark.remove.group');
+        $this->name = lang('AbuseIpdb.spark.remove.name');
+        $this->description = lang('AbuseIpdb.spark.remove.description');
+        $this->usage = lang('AbuseIpdb.spark.remove.usage');
+        $this->arguments = [
+            'ip' => lang('AbuseIpdb.spark.remove.arguments.ip'),
+        ];
+    }
+
+    public function run(array $params)
+    {
+        $ipAddress = !isset($params[0]) ? CLI::prompt(lang('AbuseIpdb.spark.remove.prompt.ip'), null, 'required') : $params[0];
+        $publisher = new Publisher(FCPATH);
+	    $publisher->replace(
+		    '.htaccess',
+		    [
+                lang('AbuseIpdb.htaccess', $ipAddress) . "\n" => '',
+            ]
+	    );
+    }
+}
