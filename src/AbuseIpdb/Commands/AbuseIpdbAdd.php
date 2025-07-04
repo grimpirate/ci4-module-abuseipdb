@@ -6,7 +6,7 @@ use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Publisher\Publisher;
 
-class AbuseIpdb extends BaseCommand
+class AbuseIpdbAdd extends BaseCommand
 {
     protected $group = 'AbuseIpdb';
     protected $name = 'abuseipdb:add';
