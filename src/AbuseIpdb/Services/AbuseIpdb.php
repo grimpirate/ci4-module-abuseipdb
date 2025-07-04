@@ -4,7 +4,6 @@ namespace Modules\AbuseIpdb\Services;
 
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\HTTP\CURLRequest;
-use CodeIgniter\Publisher\Publisher;
 
 use Modules\AbuseIpdb\Config\AbuseIpdb;
 use Modules\AbuseIpdb\Entities\ConfidenceEntity;
@@ -33,29 +32,15 @@ class AbuseIpdb
 	{
 		if($this->model->ok($ipAddress)) return false;
 
-		$response = null;
+		$json = null;
 		try
 		{
-			$response = $this->client->request('GET', 'check', [
-				'query' => [
-					'ipAddress' => $ipAddress,
-					'maxAgeInDays' => $this->config->maxAgeInDays,
-				]
-			]);
+			$json = $this->check($ipAddress);
 		}
 		catch(HTTPException $e)
 		{
 			// In case of an error do not block
 			log_message('error', '[ERROR] {exception}', ['exception' => $e]);
-			return false;
-		}
-
-		$json = json_decode($response->getBody(), true);
-
-		// In case of an error do not block
-		if(array_key_exists('errors', $json))
-		{
-			log_message('error', '[ERROR] Modules\AbuseIpdb: {status} {detail}', $json['errors'][0]);
 			return false;
 		}
 
@@ -66,13 +51,25 @@ class AbuseIpdb
 
 		if($json['data']['abuseConfidenceScore'] <= $this->config->abuseConfidenceScore) return false;
 
-		$publisher = new Publisher(FCPATH);
-		$publisher->addLineBefore(
-			'.htaccess',
-			"\tRequire not ip {$ipAddress}",
-			'</RequireAll>'
-		);
+		command("abuseipdb:add {$ipAddress}");
 
 		return true;
+	}
+
+	private function check(string $ipAddress): array
+	{
+		$response = $this->client->request('GET', 'check', [
+			'query' => [
+				'ipAddress' => $ipAddress,
+				'maxAgeInDays' => $this->config->maxAgeInDays,
+			]
+		]);
+
+		$json = json_decode($response->getBody(), true);
+
+		if(array_key_exists('errors', $json))
+			throw new HTTPException('API response contains errors');
+
+		return $json;
 	}
 }
