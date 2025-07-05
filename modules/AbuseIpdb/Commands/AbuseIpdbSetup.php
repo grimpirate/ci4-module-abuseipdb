@@ -24,44 +24,39 @@ class AbuseIpdbSetup extends BaseCommand
 
     public function run(array $params)
     {
-        $publisher = new Publisher(APPPATH . 'Config');
-        $publisher->addLineAfter(
-            'Autoload.php',
-            "Modules\\AbuseIpdb => ROOTPATH . 'modules/AbuseIpdb',",
-            'public $psr4 = ['
-        );
+        $publisher = new Publisher();
 
         $publisher->addLineBefore(
-            'Database.php',
-            "\tpublic array $abuseipdb = [\n\t\t'database'    => 'abuseipdb.db',\n\t\t'DBDriver'    => 'SQLite3',\n\t];",
+            APPPATH . 'Config/Database.php',
+            "\tpublic array \$abuseipdb = [\n\t\t'database'    => 'abuseipdb.db',\n\t\t'DBDriver'    => 'SQLite3',\n\t];\n",
             'public function __construct()'
         );
 
         $publisher->addLineBefore(
-            'Filters.php',
+            APPPATH . 'Config/Filters.php',
             "use Modules\\AbuseIpdb\\Filters\\AbuseIpdb;\n",
             'class Filters extends BaseFilters'
         );
 
         $publisher->addLineAfter(
-            'Filters.php',
+            APPPATH . 'Config/Filters.php',
             "\t\t'abuseipdb' => AbuseIpdb::class,",
             'public array $aliases = ['
         );
 
-        $publisher->addLineAfter(
-            'Filters.php',
+        $publisher->addLineBefore(
+            APPPATH . 'Config/Filters.php',
             "\t\t\t'abuseipdb',",
-            "'before' => ["
+            "'forcehttps',"
         );
 
         $apiKey = !isset($params[0]) ? CLI::prompt(lang('AbuseIpdb.spark.setup.prompt.key'), null, 'required') : $params[0];
 
-        $publisher = new Publisher(ROOTPATH . 'modules/AbuseIpdb/Config');
+        $publisher = new Publisher();
         $publisher->replace(
-            'AbuseIpdb.php',
+            ROOTPATH . 'modules/AbuseIpdb/Config/AbuseIpdb.php',
             [
-                'YOUR_API_KEY' => $apiKey,
+                '    public string $apiKey            = 'YOUR_ABUSEIPDB_API_KEY';' => "    public string \$apiKey            = '{$apiKey}';",
             ]
         );
         $publisher = new Publisher(FCPATH);
@@ -72,6 +67,6 @@ class AbuseIpdbSetup extends BaseCommand
 	    );
 
         command('db:create abuseipdb --ext db');
-        command('migrate -n Modules\\AbuseIpdb -g abuseipdb');
+        command('migrate -n Modules\AbuseIpdb -g abuseipdb');
     }
 }
