@@ -27,6 +27,21 @@ return [
                 'ip' => "IP address",
             ],
         ],
+        'setup' => [
+            'group' => 'AbuseIpdb',
+            'name' => 'abuseipdb:setup',
+            'description' => 'Intial module setup',
+            'usage' => 'abuseipdb:setup',
+            'arguments' => [
+                'key' => 'AbuseIpdb API key',
+            ],
+            'prompt' => [
+                'key' => "API key",
+            ],
+        ],
     ],
-    'htaccess' => "\tRequire not ip {ip}",
+    'htaccess' => [
+        'add' => "\tRequire not ip {ip}",
+        'remove' => "\tRequire not ip {ip}\n",
+    ],
 ];
