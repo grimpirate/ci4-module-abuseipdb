@@ -52,19 +52,21 @@ class AbuseIpdbSetup extends BaseCommand
 
         $apiKey = !isset($params[0]) ? CLI::prompt(lang('AbuseIpdb.spark.setup.prompt.key'), null, 'required') : $params[0];
 
-        $publisher = new Publisher();
         $publisher->replace(
             ROOTPATH . 'modules/AbuseIpdb/Config/AbuseIpdb.php',
             [
                 "    public string \$apiKey            = 'YOUR_ABUSEIPDB_API_KEY';" => "    public string \$apiKey            = '{$apiKey}';",
             ]
         );
+
+        /*
         $publisher = new Publisher(FCPATH);
 	    $publisher->addLineBefore(
 		    '.htaccess',
 		    "# Block IPs\n<RequireAll>\n\tRequire all granted\n</RequireAll>\n",
 		    '# Disable directory browsing'
 	    );
+        */
 
         command('db:create abuseipdb --ext db');
         command("migrate -n Modules\\\\AbuseIpdb -g abuseipdb");
