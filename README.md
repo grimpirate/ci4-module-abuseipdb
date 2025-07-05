@@ -68,9 +68,10 @@ public array $required = [
     Require all granted
 </RequireAll>
 ```
-
-spark
+~
 ```
 php spark db:create abuseipdb --ext db
 php spark migrate -n Modules\\AbuseIpdb -g abuseipdb
+
+chown -R apache:apache abuseipdb.db
 ```
