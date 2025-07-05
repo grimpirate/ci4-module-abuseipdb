@@ -5,8 +5,9 @@ namespace Modules\AbuseIpdb\Commands;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\CLI\Commands;
-use CodeIgniter\Publisher\Publisher;
 use Psr\Log\LoggerInterface;
+
+use Modules\AbuseIpdb\Publisher\Publisher;
 
 class AbuseIpdbAdd extends BaseCommand
 {
@@ -25,9 +26,9 @@ class AbuseIpdbAdd extends BaseCommand
     public function run(array $params)
     {
         $ipAddress = !isset($params[0]) ? CLI::prompt(lang('AbuseIpdb.spark.add.prompt.ip'), null, 'required') : $params[0];
-        $publisher = new Publisher(FCPATH);
+        $publisher = new Publisher();
 	    $publisher->addLineBefore(
-		    '.htaccess',
+		    FCPATH . '.htaccess',
 		    lang('AbuseIpdb.htaccess.add', ['ip' => $ipAddress]),
 		    '</RequireAll>'
 	    );

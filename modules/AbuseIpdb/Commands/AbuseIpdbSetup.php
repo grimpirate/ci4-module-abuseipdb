@@ -27,11 +27,8 @@ class AbuseIpdbSetup extends BaseCommand
     {
         $publisher = new Publisher();
 
-        $content = file_get_contents(APPPATH . 'Config/Database.php');
-
-
         $publisher->addLineBefore(
-            ,
+            APPPATH . 'Config/Database.php',
             "\tpublic array \$abuseipdb = [\n\t\t'database'    => 'abuseipdb.db',\n\t\t'DBDriver'    => 'SQLite3',\n\t];\n",
             'public function __construct()'
         );
@@ -63,15 +60,14 @@ class AbuseIpdbSetup extends BaseCommand
             ]
         );
 
-	    $publisher->addLineBefore(
+	    $publisher->replace(
 		    FCPATH . '.htaccess',
-		    "# Block IPs\n<RequireAll>\n\tRequire all granted\n</RequireAll>\n",
-		    '# Disable directory browsing'
+            [
+                '# Disable directory browsing' => "# Block IPs\n<RequireAll>\n\tRequire all granted\n</RequireAll>\n\n# Disable directory browsing",
+            ],
 	    );
 
         command('db:create abuseipdb --ext db');
         command("migrate -n Modules\\\\AbuseIpdb -g abuseipdb");
     }
-
-    private function replace
 }
