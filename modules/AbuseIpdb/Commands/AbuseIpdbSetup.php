@@ -56,7 +56,7 @@ class AbuseIpdbSetup extends BaseCommand
         $publisher->replace(
             ROOTPATH . 'modules/AbuseIpdb/Config/AbuseIpdb.php',
             [
-                '    public string $apiKey            = 'YOUR_ABUSEIPDB_API_KEY';' => "    public string \$apiKey            = '{$apiKey}';",
+                "    public string \$apiKey            = 'YOUR_ABUSEIPDB_API_KEY';" => "    public string \$apiKey            = '{$apiKey}';",
             ]
         );
         $publisher = new Publisher(FCPATH);
@@ -67,6 +67,6 @@ class AbuseIpdbSetup extends BaseCommand
 	    );
 
         command('db:create abuseipdb --ext db');
-        command('migrate -n Modules\AbuseIpdb -g abuseipdb');
+        command("migrate -n Modules\\\\AbuseIpdb -g abuseipdb");
     }
 }
