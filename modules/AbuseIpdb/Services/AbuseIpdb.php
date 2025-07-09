@@ -67,7 +67,7 @@ class AbuseIpdb
 		$json = json_decode($response->getBody(), true);
 
 		if(array_key_exists('errors', $json))
-			throw new HTTPException('API response contains errors');
+			throw new HTTPException("API: {$json['errors'][0]['status']} {$json['errors'][0]['detail']}");
 
 		return $json;
 	}
