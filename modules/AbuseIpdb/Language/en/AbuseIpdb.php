@@ -39,6 +39,18 @@ return [
 				'key' => "API key",
 			],
 		],
+		'whitelist' => [
+			'group' => 'AbuseIpdb',
+			'name' => 'abuseipdb:whitelist',
+			'description' => 'Exempt an ip from filtering',
+			'usage' => 'abuseipdb:whitelist <ip>',
+			'arguments' => [
+				'ip' => 'Internet Protocol Address',
+			],
+			'prompt' => [
+				'ip' => "IP address",
+			],
+		],
 	],
 	'htaccess' => [
 		'add' => "\tRequire not ip {ip}",

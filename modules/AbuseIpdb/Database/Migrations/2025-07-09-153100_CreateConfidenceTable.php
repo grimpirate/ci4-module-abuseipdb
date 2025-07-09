@@ -19,6 +19,10 @@ class CreateConfidenceTable extends Migration
 			'abuse_confidence_score' => [
 				'type' => 'INTEGER',
 			],
+			'whitelisted' => [
+				'type' => 'BOOLEAN',
+				'default' => false,
+			],
 			'created_at' => [
 				'type' => 'INTEGER',
 				'default' => new RawSql('CURRENT_TIMESTAMP'),

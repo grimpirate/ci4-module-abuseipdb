@@ -12,6 +12,7 @@ class ConfidenceEntity extends Entity
 	protected $casts = [
 		'ip_address' => 'string',
 		'abuse_confidence_score' => 'integer',
+		'whitelisted' => 'boolean',
 	];
 
 	protected $dates = [
@@ -22,6 +23,8 @@ class ConfidenceEntity extends Entity
 
 	public function getOk(): bool
 	{
+		if($this->whitelisted) return true;
+		
 		$now = Time::now();
 		$diff = $now->difference($this->updated_at);
 		$days = -$diff->getDays();

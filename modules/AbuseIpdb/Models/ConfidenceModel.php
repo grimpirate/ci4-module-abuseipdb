@@ -14,6 +14,7 @@ class ConfidenceModel extends Model
 	protected $useAutoIncrement = false;
 	protected $allowedFields = [
 		'abuse_confidence_score',
+		'whitelisted',
 	];
 	protected $useSoftDeletes = true;
 	protected $useTimestamps = true;
