@@ -25,9 +25,7 @@ class ConfidenceEntity extends Entity
 	{
 		if($this->whitelisted) return true;
 		
-		$now = Time::now();
-		$diff = $now->difference($this->updated_at);
-		$days = -$diff->getDays();
+		$days = $this->updated_at->difference(Time::now())->getDays();
 
 		$config = config(AbuseIpdb::class);
 
