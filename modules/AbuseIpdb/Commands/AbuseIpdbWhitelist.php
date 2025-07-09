@@ -7,7 +7,7 @@ use CodeIgniter\CLI\CLI;
 use CodeIgniter\CLI\Commands;
 use Psr\Log\LoggerInterface;
 
-namespace Modules\AbuseIpdb\Models\ConfidenceModel;
+use Modules\AbuseIpdb\Models\ConfidenceModel;
 
 class AbuseIpdbWhitelist extends BaseCommand
 {

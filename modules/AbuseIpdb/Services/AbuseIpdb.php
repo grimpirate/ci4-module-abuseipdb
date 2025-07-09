@@ -55,7 +55,7 @@ class AbuseIpdb
 		return true;
 	}
 
-	private function check(string $ipAddress): array
+	public function check(string $ipAddress): array
 	{
 		$response = $this->client->request('GET', 'check', [
 			'query' => [
