@@ -4,9 +4,9 @@ A CodeIgniter4 Module that provides filtering of IPs as a countermeasure to abus
 ## Setup
 ~
 ```
-git clone https://github.com/grimpirate/abuseipdb
-mv abuseipdb/modules .
-rm -rf abuseipdb
+git clone https://github.com/grimpirate/ci4-module-abuseipdb
+mv ci4-module-abuseipdb/modules .
+rm -rf ci4-module-abuseipdb
 ```
 .env
 ```
