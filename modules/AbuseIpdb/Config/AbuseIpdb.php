@@ -3,6 +3,7 @@
 namespace Modules\AbuseIpdb\Config;
 
 use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\HTTP\RequestInterface;
 
 class AbuseIpdb extends BaseConfig
 {
