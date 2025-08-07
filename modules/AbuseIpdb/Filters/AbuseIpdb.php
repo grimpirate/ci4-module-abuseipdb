@@ -10,7 +10,7 @@ class AbuseIpdb implements FilterInterface
 {
 	public function before(RequestInterface $request, $arguments = null)
 	{
-		if(service('abuseipdb')->block($request->getIPAddress()))
+		if(service('abuseipdb')->block($request))
 			return service('response')->setStatusCode(403);
 	}
 

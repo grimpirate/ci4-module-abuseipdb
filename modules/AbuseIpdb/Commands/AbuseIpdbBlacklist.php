@@ -9,23 +9,23 @@ use Psr\Log\LoggerInterface;
 
 use Modules\AbuseIpdb\Models\ConfidenceModel;
 
-class AbuseIpdbWhitelist extends BaseCommand
+class AbuseIpdbBlacklist extends BaseCommand
 {
 	public function __construct(LoggerInterface $logger, Commands $commands)
 	{
 		parent::__construct($logger, $commands);
-		$this->group = lang('AbuseIpdb.spark.whitelist.group');
-		$this->name = lang('AbuseIpdb.spark.whitelist.name');
-		$this->description = lang('AbuseIpdb.spark.whitelist.description');
-		$this->usage = lang('AbuseIpdb.spark.whitelist.usage');
+		$this->group = lang('AbuseIpdb.spark.blacklist.group');
+		$this->name = lang('AbuseIpdb.spark.blacklist.name');
+		$this->description = lang('AbuseIpdb.spark.blacklist.description');
+		$this->usage = lang('AbuseIpdb.spark.blacklist.usage');
 		$this->arguments = [
-			'ip' => lang('AbuseIpdb.spark.whitelist.arguments.ip'),
+			'ip' => lang('AbuseIpdb.spark.blacklist.arguments.ip'),
 		];
 	}
 
 	public function run(array $params)
 	{
-		$ipAddress = !isset($params[0]) ? CLI::prompt(lang('AbuseIpdb.spark.whitelist.prompt.ip'), null, 'required') : $params[0];
+		$ipAddress = !isset($params[0]) ? CLI::prompt(lang('AbuseIpdb.spark.blacklist.prompt.ip'), null, 'required') : $params[0];
         
         $json = null;
 		try
@@ -42,7 +42,7 @@ class AbuseIpdbWhitelist extends BaseCommand
 		model(ConfidenceModel::class)->save([
 			'ip_address' => $ipAddress,
 			'abuse_confidence_score' => $json['data']['abuseConfidenceScore'],
-            'whitelist' => true,
+            'blacklist' => true,
 		]);
 	}
 }

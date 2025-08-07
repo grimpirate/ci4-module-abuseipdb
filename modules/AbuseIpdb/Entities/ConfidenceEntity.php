@@ -12,7 +12,9 @@ class ConfidenceEntity extends Entity
 	protected $casts = [
 		'ip_address' => 'string',
 		'abuse_confidence_score' => 'integer',
-		'whitelisted' => 'boolean',
+		'blacklist' => 'boolean',
+		'whitelist' => 'boolean',
+		'user_agent' => '?string',
 	];
 
 	protected $dates = [
@@ -21,18 +23,19 @@ class ConfidenceEntity extends Entity
 		'deleted_at',
 	];
 
-	public function getOk(): bool
-	{
-		if($this->whitelisted) return true;
-		
-		$days = $this->updated_at->difference(Time::now())->getDays();
-
+	public function isExpired(): bool
+	{	
 		$config = config(AbuseIpdb::class);
 
-		if($days > $config->maxAgeInDays) return false;
+		$days = $this->updated_at->difference(Time::now())->getDays();
 
-		if($this->abuse_confidence_score > $config->abuseConfidenceScore) return false;
+		return $days > $config->maxAgeInDays;
+	}
 
-		return true;
+	public function isAbusive(): bool
+	{
+		$config = config(AbuseIpdb::class);
+
+		return $this->abuse_confidence_score > $config->abuseConfidenceScore;
 	}
 }

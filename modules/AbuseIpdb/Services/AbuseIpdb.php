@@ -4,9 +4,11 @@ namespace Modules\AbuseIpdb\Services;
 
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\HTTP\CURLRequest;
+use CodeIgniter\HTTP\RequestInterface;
 
 use Modules\AbuseIpdb\Config\AbuseIpdb as AbuseIpdbConfig;
 use Modules\AbuseIpdb\Models\ConfidenceModel;
+use Modules\AbuseIpdb\Exceptions\UnloggedException;
 
 class AbuseIpdb
 {
@@ -27,9 +29,21 @@ class AbuseIpdb
 		]);
 	}
 
-	public function block(string $ipAddress): bool
+	public function block(RequestInterface $request): bool
 	{
-		if($this->model->ok($ipAddress)) return false;
+		$ipAddress = $request->getIPAddress();
+
+		try
+		{
+			$logged = $this->model->logged($ipAddress);
+
+			if($logged->blacklist) return true;
+
+			if($logged->whitelist) return false;
+
+			if(!$logged->isExpired() && $logged->isAbusive()) return true;
+
+		} catch (UnloggedException $e) {}
 
 		$json = null;
 		try
@@ -43,7 +57,11 @@ class AbuseIpdb
 			return false;
 		}
 
-		$this->model->save([
+		$this->model->save($this->config->autoBlacklist ? [
+			'ip_address' => $ipAddress,
+			'abuse_confidence_score' => $json['data']['abuseConfidenceScore'],
+			'blacklist' => AbuseIpdbConfig::blacklist($request),
+		] : [
 			'ip_address' => $ipAddress,
 			'abuse_confidence_score' => $json['data']['abuseConfidenceScore'],
 		]);
@@ -71,4 +89,6 @@ class AbuseIpdb
 
 		return $json;
 	}
+
+	
 }

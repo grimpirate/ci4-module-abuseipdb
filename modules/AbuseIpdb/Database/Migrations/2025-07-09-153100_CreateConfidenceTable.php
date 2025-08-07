@@ -19,9 +19,18 @@ class CreateConfidenceTable extends Migration
 			'abuse_confidence_score' => [
 				'type' => 'INTEGER',
 			],
-			'whitelisted' => [
+			'blacklist' => [
 				'type' => 'BOOLEAN',
 				'default' => false,
+			],
+			'whitelist' => [
+				'type' => 'BOOLEAN',
+				'default' => false,
+			],
+			'user_agent' => [
+				'type' => 'TEXT',
+				'default' => null,
+				'null' => true,
 			],
 			'created_at' => [
 				'type' => 'INTEGER',

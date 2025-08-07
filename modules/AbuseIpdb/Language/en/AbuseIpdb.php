@@ -51,9 +51,24 @@ return [
 				'ip' => "IP address",
 			],
 		],
+		'blacklist' => [
+			'group' => 'AbuseIpdb',
+			'name' => 'abuseipdb:blacklist',
+			'description' => 'Ban ip permanently',
+			'usage' => 'abuseipdb:blacklist <ip>',
+			'arguments' => [
+				'ip' => 'Internet Protocol Address',
+			],
+			'prompt' => [
+				'ip' => "IP address",
+			],
+		],
 	],
 	'htaccess' => [
 		'add' => "\tRequire not ip {ip}",
 		'remove' => "\tRequire not ip {ip}\n",
+	],
+	'exceptions' => [
+		'unlogged' => 'IP has not yet been logged.',
 	],
 ];
