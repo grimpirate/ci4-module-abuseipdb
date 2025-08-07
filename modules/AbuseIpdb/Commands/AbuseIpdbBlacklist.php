@@ -7,6 +7,7 @@ use CodeIgniter\CLI\CLI;
 use CodeIgniter\CLI\Commands;
 use Psr\Log\LoggerInterface;
 
+use Modules\AbuseIpdb\Entities\ConfidenceEntity;
 use Modules\AbuseIpdb\Models\ConfidenceModel;
 
 class AbuseIpdbBlacklist extends BaseCommand
@@ -39,10 +40,10 @@ class AbuseIpdbBlacklist extends BaseCommand
 			return false;
 		}
 
-		model(ConfidenceModel::class)->save([
+		model(ConfidenceModel::class)->save(new ConfidenceEntity([
 			'ip_address' => $ipAddress,
 			'abuse_confidence_score' => $json['data']['abuseConfidenceScore'],
             'blacklist' => true,
-		]);
+		]));
 	}
 }

@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\CURLRequest;
 use CodeIgniter\HTTP\RequestInterface;
 
 use Modules\AbuseIpdb\Config\AbuseIpdb as AbuseIpdbConfig;
+use Modules\AbuseIpdb\Entities\ConfidenceEntity;
 use Modules\AbuseIpdb\Models\ConfidenceModel;
 use Modules\AbuseIpdb\Exceptions\UnloggedException;
 
@@ -57,14 +58,16 @@ class AbuseIpdb
 			return false;
 		}
 
-		$this->model->save($this->config->autoBlacklist ? [
+		$this->model->save(new ConfidenceEntity($this->config->autoBlacklist ? [
 			'ip_address' => $ipAddress,
 			'abuse_confidence_score' => $json['data']['abuseConfidenceScore'],
+			'user_agent' => $request->getUserAgent(),
 			'blacklist' => AbuseIpdbConfig::blacklist($request),
 		] : [
 			'ip_address' => $ipAddress,
 			'abuse_confidence_score' => $json['data']['abuseConfidenceScore'],
-		]);
+			'user_agent' => $request->getUserAgent(),
+		]));
 
 		if($json['data']['abuseConfidenceScore'] <= $this->config->abuseConfidenceScore) return false;
 
@@ -89,6 +92,4 @@ class AbuseIpdb
 
 		return $json;
 	}
-
-	
 }

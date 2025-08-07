@@ -23,6 +23,18 @@ class ConfidenceEntity extends Entity
 		'deleted_at',
 	];
 
+	public function setUserAgent(string $userAgent): void
+	{
+		if(empty($userAgent) || strcasecmp($userAgent, '-') === 0)
+		{
+			$this->user_agent = null;
+		}
+		else
+		{
+			$this->user_agent = filter_var($userAgent, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		}
+	}
+
 	public function isExpired(): bool
 	{	
 		$config = config(AbuseIpdb::class);
