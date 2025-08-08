@@ -16,7 +16,13 @@ class AbuseIpdb extends BaseConfig
 	{
 		if($request->getUserAgent()->isRobot()) return true;
 
-		if(1 === preg_match('/robots|security|xml|wp-include/i', $request->getPath())) return true;
+		$userAgentString = $request->getUserAgent()->getAgentString();
+
+		if(empty($userAgentString)) return true;
+
+		if(1 === preg_match('/x11; (?:linux|cros) x86_64|windows nt 6.1|android|iphone/i', $userAgentString)) return true;
+
+		if(1 === preg_match('/robots|security|xml|wp-include|file-manager/i', $request->getPath())) return true;
 
 		return false;
 	}
