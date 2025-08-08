@@ -14,9 +14,7 @@ class AbuseIpdb extends BaseConfig
 
 	public static function blacklist(RequestInterface $request): bool
 	{
-		$userAgent = $request->getUserAgent();
-		if(empty($userAgent) || strcasecmp('-') === 0) return true;
-		if(1 === preg_match('/censys|palo|hawaiibot|python|facebook|cms-checker|scrapy|wanscannerbot|googlebot|gptbot|bingbot|applebot/i', $userAgent)) return true;
+		if($request->getUserAgent()->isRobot()) return true;
 
 		$routePath = $request->getRoutePath();
 		if(1 === preg_match('/robots|security|xml|wp-include/i', $routePath)) return true;
