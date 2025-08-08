@@ -16,8 +16,7 @@ class AbuseIpdb extends BaseConfig
 	{
 		if($request->getUserAgent()->isRobot()) return true;
 
-		$routePath = $request->getRoutePath();
-		if(1 === preg_match('/robots|security|xml|wp-include/i', $routePath)) return true;
+		if(1 === preg_match('/robots|security|xml|wp-include/i', $request->getPath())) return true;
 
 		return false;
 	}
