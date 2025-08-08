@@ -258,7 +258,8 @@ class UserAgents extends BaseConfig
         'scrapy'               => 'Scrapy',
         'wanscannerbot'        => 'WanScannerBot',
         'gptbot'               => 'GPTBot',
-        'bingbot'              => 'bingbot',
         'applebot'             => 'Applebot',
+        'ort'                  => 'ORTc.me',
     ];
+
 }
