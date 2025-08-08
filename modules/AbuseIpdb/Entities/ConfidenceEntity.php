@@ -3,6 +3,7 @@
 namespace Modules\AbuseIpdb\Entities;
 
 use CodeIgniter\Entity\Entity;
+use CodeIgniter\HTTP\UserAgent;
 use CodeIgniter\I18n\Time;
 
 use Modules\AbuseIpdb\Config\AbuseIpdb;
@@ -23,16 +24,11 @@ class ConfidenceEntity extends Entity
 		'deleted_at',
 	];
 
-	public function setUserAgent(string $userAgent): void
+	public function setUserAgent(UserAgent $userAgent): ConfidenceEntity
 	{
-		if(empty($userAgent) || strcasecmp($userAgent, '-') === 0)
-		{
-			$this->user_agent = null;
-		}
-		else
-		{
-			$this->user_agent = filter_var($userAgent, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-		}
+		$this->attributes['user_agent'] = filter_var($userAgent->getAgentString(), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+		return $this;
 	}
 
 	public function isExpired(): bool

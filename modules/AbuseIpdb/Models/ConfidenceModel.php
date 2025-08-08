@@ -23,7 +23,7 @@ class ConfidenceModel extends Model
 	protected $useTimestamps = true;
 	protected $returnType = ConfidenceEntity::class;
 
-	public function logged($ipAddress): bool
+	public function logged($ipAddress): ConfidenceEntity
 	{
 		$row = $this->where('ip_address', $ipAddress)->first();
 		if(empty($row)) throw new UnloggedException();
