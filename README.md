@@ -61,7 +61,7 @@ public array $required = [
     ],
 ];
 ```
-.htaccess
+public/.htaccess
 ```
 # Block IPs
 <RequireAll>
