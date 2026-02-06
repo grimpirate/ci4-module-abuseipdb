@@ -2,8 +2,19 @@
 
 namespace Modules\AbuseIpdb\Config;
 
+use Modules\AbuseIpdb\Filters\AbuseIpdb;
+
 class Registrar
 {
+    public static function Filters(): array
+    {
+        return [
+            'aliases' => [
+                'abuseipdb' => AbuseIpdb::class,
+            ],
+        ];
+    }
+
     public static function UserAgents(): array
     {
         return [

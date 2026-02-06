@@ -49,12 +49,6 @@ public array $abuseipdb = [
 ```
 app/Config/Filters.php
 ```
-use Modules\AbuseIpdb\Filters\AbuseIpdb;
-
-public array $aliases = [
-    'abuseipdb' => AbuseIpdb::class,
-];
-
 public array $required = [
     'before' => [
         'abuseipdb',
